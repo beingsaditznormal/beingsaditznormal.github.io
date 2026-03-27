@@ -6,15 +6,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=IM+Fell+English:ital@0;1&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
 
 :root {
-    --bg:            #0c0a07;
-    --text:          #ddd0b0;     /* warm parchment, readable */
-    --text-mid:      #b0a080;     /* secondary text — passes contrast on --bg */
-    --text-dim:      #7a6e58;     /* decorative only, never body copy */
-    --accent:        #c8a055;
-    --accent-glow:   rgba(200, 160, 85, 0.12);
-    --accent-dim:    #8a6d3a;     /* for ornaments, not text */
-    --border:        rgba(200, 160, 85, 0.13);
-    --border-hover:  rgba(200, 160, 85, 0.35);
+    /* backgrounds */
+    --bg:            #0d0b08;
+
+    /* text — three clear tiers, all pass WCAG AA on --bg */
+    --text:          #ede0c4;   /* primary: parchment-warm, ~11:1 contrast */
+    --text-mid:      #c8b88a;   /* secondary: muted gold, ~6:1 contrast    */
+    --text-dim:      #7a6b50;   /* ornamental only — never body copy        */
+
+    /* accent */
+    --accent:        #d4a84b;   /* gold — used sparingly                    */
+    --accent-glow:   rgba(212, 168, 75, 0.11);
+    --accent-dim:    #8c6e34;   /* for borders, ornaments                   */
+
+    /* borders */
+    --border:        rgba(212, 168, 75, 0.14);
+    --border-mid:    rgba(212, 168, 75, 0.28);
 }
 
 /* ── Reset ── */
@@ -26,19 +33,19 @@ body {
     color: var(--text);
     font-family: 'Crimson Text', serif;
     font-size: 19px;
-    line-height: 1.75;
+    line-height: 1.78;
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
 }
 
-/* ── Grain overlay ── */
+/* ── Grain ── */
 .grain {
     position: fixed;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     background-size: 200px 200px;
-    opacity: 0.045;
+    opacity: 0.04;
     pointer-events: none;
     z-index: 50;
 }
@@ -47,14 +54,14 @@ body {
 .vignette {
     position: fixed;
     inset: 0;
-    background: radial-gradient(ellipse at 50% 40%, transparent 40%, rgba(0, 0, 0, 0.65) 100%);
+    background: radial-gradient(ellipse at 50% 30%, transparent 45%, rgba(0,0,0,0.55) 100%);
     pointer-events: none;
     z-index: 49;
 }
 
 /* ── Layout ── */
 .container {
-    max-width: 680px;
+    max-width: 700px;
     margin: 0 auto;
     padding: 0 2rem 5rem;
     position: relative;
@@ -68,7 +75,7 @@ nav {
     align-items: center;
     padding: 2.5rem 0 2rem;
     border-bottom: 1px solid var(--border);
-    animation: riseIn 0.8s ease both;
+    animation: riseIn 0.7s ease both;
 }
 
 .logo {
@@ -76,7 +83,6 @@ nav {
     font-size: 0.72rem;
     letter-spacing: 0.3em;
     color: var(--accent);
-    text-transform: uppercase;
 }
 
 .links a {
@@ -84,10 +90,11 @@ nav {
     font-size: 1.05rem;
     margin-left: 1.75rem;
     text-decoration: none;
-    color: var(--text-mid);      /* was --text-dim, now readable */
-    letter-spacing: 0.05em;
-    transition: color 0.25s ease;
+    color: var(--text-mid);
+    letter-spacing: 0.04em;
+    transition: color 0.22s ease;
     border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
 }
 
 .links a:hover {
@@ -99,96 +106,71 @@ nav {
 .hero {
     text-align: center;
     padding: 7vh 0 3vh;
-    animation: riseIn 0.9s ease 0.1s both;
+    animation: riseIn 0.8s ease 0.08s both;
 }
 
 .ornament {
-    color: var(--text-dim);      /* decorative, intentionally subtle */
-    font-size: 0.8rem;
-    letter-spacing: 0.5em;
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    letter-spacing: 0.55em;
     margin: 1.75rem 0;
 }
 
 .top-ornament { margin-top: 0; }
 
 .intro-tag {
-    font-family: 'Crimson Text', serif;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     text-transform: uppercase;
     letter-spacing: 0.28em;
-    color: var(--text-mid);      /* was --text-dim, now readable */
+    color: var(--text-mid);
     margin-bottom: 1rem;
 }
 
 h1 {
     font-family: 'Cinzel', serif;
-    font-size: clamp(2.1rem, 6vw, 3.6rem);
+    font-size: clamp(2.2rem, 6vw, 3.7rem);
     font-weight: 600;
     letter-spacing: 0.06em;
     color: var(--text);
     text-shadow:
-        0 0 40px var(--accent-glow),
-        0 0 80px rgba(200, 160, 85, 0.05);
+        0 0 50px var(--accent-glow),
+        0 0 100px rgba(212, 168, 75, 0.05);
     margin-bottom: 0.6rem;
+    line-height: 1.15;
 }
 
 .subtitle {
     font-family: 'IM Fell English', serif;
     font-style: italic;
     font-size: 1.1rem;
-    color: var(--text-mid);      /* was --text-dim, now readable */
-    letter-spacing: 0.04em;
+    color: var(--text-mid);
+    letter-spacing: 0.03em;
+}
+
+.subtitle em {
+    font-style: normal;
+    color: var(--accent);
+    opacity: 0.85;
 }
 
 /* ── Bio ── */
 .bio {
-    max-width: 600px;
+    max-width: 630px;
     margin: 2rem auto 0;
     text-align: center;
-    animation: riseIn 0.9s ease 0.25s both;
-    position: relative;
+    animation: riseIn 0.8s ease 0.18s both;
 }
 
 .bio-text {
     font-size: 1.22rem;
-    line-height: 1.9;
+    line-height: 1.88;
     color: var(--text);
-    margin-bottom: 1.1rem;
+    margin-bottom: 1.15rem;
 }
 
 .bio-text em {
     font-style: italic;
     color: var(--text-mid);
-}
-
-/* ── Marginal quote (Lorde) ── */
-.marginal-quote {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-top: 2.5rem;
-    padding-right: 0.25rem;
-    border-right: 1px solid var(--border);
-    gap: 0.25rem;
-}
-
-.marginal-quote span {
-    font-family: 'IM Fell English', serif;
-    font-style: italic;
-    font-size: 0.88rem;
-    color: var(--text-dim);      /* intentionally quiet */
-    letter-spacing: 0.02em;
-    line-height: 1.6;
-}
-
-.marginal-quote .mq-attr {
-    font-family: 'Crimson Text', serif;
-    font-style: normal;
-    font-size: 0.73rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    color: var(--text-dim);
-    opacity: 0.7;
 }
 
 /* ── Divider ── */
@@ -198,7 +180,7 @@ h1 {
     gap: 1rem;
     margin: 3rem 0 2.5rem;
     color: var(--text-dim);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
 }
 
 .divider::before,
@@ -209,54 +191,101 @@ h1 {
     background: var(--border);
 }
 
-/* ── Craft / Work section ── */
-.craft {
-    animation: riseIn 0.9s ease 0.4s both;
-}
-
+/* ── Section label ── */
 .section-label {
     font-family: 'Cinzel', serif;
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.32em;
     color: var(--accent);
     margin-bottom: 1.75rem;
 }
 
+/* ── Craft / Work ── */
+.craft { animation: riseIn 0.8s ease 0.28s both; }
+
 .craft-list {
     display: flex;
     flex-direction: column;
-    gap: 0;
 }
 
 .craft-item {
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 1rem 2rem;
-    padding: 1.25rem 0;
+    grid-template-columns: 8rem 1fr;
+    gap: 0.75rem 2rem;
+    padding: 1.3rem 0;
     border-bottom: 1px solid var(--border);
-    transition: background 0.25s ease;
 }
 
 .craft-item:first-child { border-top: 1px solid var(--border); }
 
 .craft-item dt {
     font-family: 'Cinzel', serif;
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     font-weight: 400;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--text-mid);      /* readable, not the full accent */
-    padding-top: 0.1rem;
-    line-height: 1.6;
+    letter-spacing: 0.1em;
+    color: var(--text-mid);
+    padding-top: 0.15rem;
+    line-height: 1.55;
 }
 
 .craft-item dd {
-    font-family: 'Crimson Text', serif;
     font-size: 1.05rem;
-    color: var(--text);          /* full contrast for the description */
-    line-height: 1.7;
+    color: var(--text);
+    line-height: 1.72;
+}
+
+/* ── Timeline ── */
+.timeline { animation: riseIn 0.8s ease 0.38s both; }
+
+.tl-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.tl-item {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 0.75rem 2rem;
+    padding: 1.3rem 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+}
+
+.tl-item:first-child { border-top: 1px solid var(--border); }
+
+.tl-date {
+    font-family: 'Cinzel', serif;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding-top: 0.2rem;
+    line-height: 1.55;
+}
+
+.tl-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.tl-body strong {
+    font-family: 'Crimson Text', serif;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text);
+    letter-spacing: 0.01em;
+}
+
+.tl-body p {
+    font-size: 1rem;
+    color: var(--text-mid);
+    line-height: 1.68;
 }
 
 /* ── Footer ── */
@@ -265,20 +294,20 @@ footer {
     padding: 2.5rem 0 0;
     border-top: 1px solid var(--border);
     margin-top: 3.5rem;
-    animation: riseIn 0.9s ease 0.6s both;
+    animation: riseIn 0.8s ease 0.5s both;
 }
 
 .ornament-footer {
     color: var(--text-dim);
-    font-size: 0.68rem;
-    letter-spacing: 0.5em;
-    margin-bottom: 1.25rem;
-    opacity: 0.55;
+    font-size: 0.65rem;
+    letter-spacing: 0.55em;
+    margin-bottom: 1.2rem;
+    opacity: 0.5;
 }
 
 footer p {
-    font-size: 0.85rem;
-    color: var(--text-mid);      /* was --text-dim, now readable */
+    font-size: 0.86rem;
+    color: var(--text-mid);
     letter-spacing: 0.04em;
 }
 
@@ -287,24 +316,29 @@ footer p {
     font-family: 'IM Fell English', serif;
     font-size: 1.05rem !important;
     color: var(--text-mid) !important;
+    font-style: italic;
 }
 
 /* ── Animation ── */
 @keyframes riseIn {
-    from { opacity: 0; transform: translateY(18px); }
+    from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0);    }
 }
 
 /* ── Responsive ── */
 @media (max-width: 560px) {
-    .craft-item {
-        grid-template-columns: 1fr;
-        gap: 0.3rem;
-    }
-
     h1 { font-size: 2.2rem; }
 
     .links a { margin-left: 1rem; }
 
-    .marginal-quote { align-items: center; border-right: none; border-top: 1px solid var(--border); padding-right: 0; padding-top: 1.5rem; }
+    .craft-item,
+    .tl-item {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+    }
+
+    .tl-date {
+        font-size: 0.63rem;
+        opacity: 0.75;
+    }
 }
