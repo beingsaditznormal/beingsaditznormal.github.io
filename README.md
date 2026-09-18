@@ -1,1 +1,0 @@
-# beingsaditznormal.github.io
