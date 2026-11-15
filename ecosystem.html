@@ -1,0 +1,79 @@
+---
+# Front matter (even empty) tells GitHub Pages' Jekyll to fill this page from _data/ecosystem.yml.
+# You never need to edit this file to add things: edit _data/ecosystem.yml instead.
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cultural ecosystem | majofrog</title>
+<meta name="description" content="Books, films, series, videos and posts majofrog has consumed, is consuming and will consume.">
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚲</text></svg>">
+</head>
+<body>
+
+<header>
+    <h1 class="title"><a href="index.html">majofrog</a></h1>
+    <nav>
+        <a href="posts/index.html">posts</a>
+        <a href="ecosystem.html">ecosystem</a>
+        <a href="https://github.com/beingsaditznormal">github</a>
+    </nav>
+</header>
+
+<main>
+
+<h2 style="margin-top:0">Cultural ecosystem</h2>
+
+<p>
+    What goes into my head: books, films, series, videos, newsletters and the
+    occasional paper. What I've been through, what I'm in the middle of, and
+    what's waiting in line.
+</p>
+
+{% assign items = site.data.ecosystem %}
+{% assign statuses = "now,done,next" | split: "," %}
+{% assign status_labels = "Consuming now,Consumed,Up next" | split: "," %}
+{% assign types = "book,film,series,video,podcast,article,newsletter,paper,course" | split: "," %}
+{% assign type_labels = "Books,Films,Series,Videos,Podcasts,Articles &amp; posts,Newsletters,Papers,Courses" | split: "," %}
+
+<p class="eco-jump">
+{% for status in statuses %}{% assign n = items | where: "status", status %}<a href="#{{ status }}">{{ status_labels[forloop.index0] | downcase }}</a> <span class="eco-count">({{ n.size }})</span>{% unless forloop.last %} · {% endunless %}{% endfor %}
+</p>
+
+{% for status in statuses %}
+{% assign in_status = items | where: "status", status %}
+{% if in_status.size > 0 %}
+<h2 id="{{ status }}">{{ status_labels[forloop.index0] }}</h2>
+
+{% for type in types %}
+{% assign group = in_status | where: "type", type %}
+{% if group.size > 0 %}
+<h3>{{ type_labels[forloop.index0] }}</h3>
+<ul class="eco-list">
+{% for item in group %}
+    <li>
+        <span class="eco-title">{{ item.title | escape }}</span>{% if item.author %} <span class="eco-author">— {{ item.author | escape }}</span>{% endif %}{% if item.paused %} <span class="eco-meta">(paused)</span>{% endif %}
+        {% if item.when or item.links %}<br><span class="eco-meta">{% if item.when %}{{ item.when | escape }}{% endif %}{% if item.when and item.links %} · {% endif %}{% for link in item.links %}<a href="{{ link.url }}">{{ link.label | escape }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}</span>{% endif %}
+        {% if item.comment %}<p class="eco-comment">{{ item.comment | escape }}</p>{% endif %}
+    </li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endfor %}
+
+{% endif %}
+{% endfor %}
+
+</main>
+
+<hr>
+
+<footer>
+    <p>&copy; 2026 majofrog</p>
+</footer>
+
+</body>
+</html>

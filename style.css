@@ -114,6 +114,31 @@ nav a { margin-right: 0.75rem; }
     margin-bottom: 2rem;
 }
 
+/* ── Cultural ecosystem ── */
+.eco-jump { font-size: 0.9rem; }
+
+.eco-count,
+.eco-meta {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+.eco-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.eco-list li { margin-bottom: 0.9rem; }
+
+.eco-title { color: var(--heading); font-weight: bold; }
+
+.eco-comment {
+    margin: 0.2rem 0 0;
+    padding-left: 0.75rem;
+    border-left: 2px solid var(--rule);
+    font-size: 0.95rem;
+}
+
 /* ── Footer ── */
 hr {
     border: 0;
