@@ -31,13 +31,6 @@
   status: now
   when: "2026-01"
 
-- title: "Intermezzo"
-  author: "Sally Rooney"
-  type: book
-  status: now
-  when: "2026-01"
-  paused: true
-
 - title: "Q"
   author: "Luther Blissett (oggi Wu Ming)"
   type: book
@@ -174,6 +167,12 @@
   links:
     - label: rollingstone.com
       url: https://www.rollingstone.com/music/music-features/lorde-new-album-virgin-breakup-gender-1235336574/
+
+- title: "Intermezzo"
+  author: "Sally Rooney"
+  type: book
+  status: done
+  when: "2026-01"
 
 # ---------------------------------------------------------------- next
 
