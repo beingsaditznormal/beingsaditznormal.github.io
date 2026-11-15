@@ -3,16 +3,20 @@
 # You never need to edit this file to add things: edit _data/ecosystem.yml instead.
 ---
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cultural ecosystem | majofrog</title>
 <meta name="description" content="Books, films, series, videos and posts majofrog has consumed, is consuming and will consume.">
+<script>document.documentElement.className = 'js';</script>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="assets/ecosystem.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚲</text></svg>">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" defer></script>
+<script src="assets/ecosystem.js" defer></script>
 </head>
-<body>
+<body class="eco-page">
 
 <header>
     <h1 class="title"><a href="index.html">majofrog</a></h1>
@@ -25,47 +29,75 @@
 
 <main>
 
-<h2 style="margin-top:0">Cultural ecosystem</h2>
+<h2 class="eco-heading">Cultural ecosystem</h2>
 
-<p>
+<p class="eco-intro">
     What goes into my head: books, films, series, videos, newsletters and the
     occasional paper. What I've been through, what I'm in the middle of, and
-    what's waiting in line.
+    what's waiting in line &mdash; connected by the themes they share.
 </p>
 
+<div class="eco-toolbar eco-js-only">
+    <div class="eco-tabs" role="tablist" aria-label="View">
+        <button type="button" role="tab" id="tab-graph" data-tab="graph" aria-controls="panel-graph" aria-selected="true">graph</button>
+        <button type="button" role="tab" id="tab-list" data-tab="list" aria-controls="panel-list" aria-selected="false" tabindex="-1">list</button>
+    </div>
+    <p class="eco-result" id="eco-result" aria-live="polite"></p>
+</div>
+
+<div class="eco-controls eco-js-only" id="eco-controls"></div>
+
+<section class="eco-panel eco-js-only" id="panel-graph" role="tabpanel" aria-labelledby="tab-graph">
+    <div class="eco-graph" id="eco-graph">
+        <div class="eco-tip" id="eco-tip" hidden></div>
+        <aside class="eco-detail" id="eco-detail" aria-live="polite" hidden></aside>
+        <p class="eco-empty" id="eco-empty" hidden>Nothing matches these filters.</p>
+        <button type="button" class="eco-fit" id="eco-fit" title="Fit everything in view">fit</button>
+    </div>
+    <div class="eco-legend">
+        <span><i class="sw fam-read"></i>read <small>book · article · newsletter · paper</small></span>
+        <span><i class="sw fam-watch"></i>watch <small>film · series · video</small></span>
+        <span><i class="sw fam-listen"></i>listen &amp; learn <small>podcast · course</small></span>
+        <span class="eco-legend-break"><i class="gl gl-done"></i>consumed <i class="gl gl-now"></i>consuming now <i class="gl gl-next"></i>up next</span>
+        <span><i class="gl gl-tag"></i>#theme <i class="gl gl-author"></i>shared author</span>
+    </div>
+    <p class="eco-hint">Hover to see connections, click a resource for details or a #theme to filter by it. Drag, scroll and pinch to move around.</p>
+</section>
+
+<section class="eco-panel" id="panel-list" role="tabpanel" aria-labelledby="tab-list">
 {% assign items = site.data.ecosystem %}
 {% assign statuses = "now,done,next" | split: "," %}
 {% assign status_labels = "Consuming now,Consumed,Up next" | split: "," %}
 {% assign types = "book,film,series,video,podcast,article,newsletter,paper,course" | split: "," %}
 {% assign type_labels = "Books,Films,Series,Videos,Podcasts,Articles &amp; posts,Newsletters,Papers,Courses" | split: "," %}
-
-<p class="eco-jump">
-{% for status in statuses %}{% assign n = items | where: "status", status %}<a href="#{{ status }}">{{ status_labels[forloop.index0] | downcase }}</a> <span class="eco-count">({{ n.size }})</span>{% unless forloop.last %} · {% endunless %}{% endfor %}
-</p>
-
 {% for status in statuses %}
 {% assign in_status = items | where: "status", status %}
 {% if in_status.size > 0 %}
-<h2 id="{{ status }}">{{ status_labels[forloop.index0] }}</h2>
-
+{% assign status_label = status_labels[forloop.index0] %}
+<div class="eco-section">
+<h2 id="{{ status }}">{{ status_label }} <span class="eco-count" data-count>{{ in_status.size }}</span></h2>
 {% for type in types %}
 {% assign group = in_status | where: "type", type %}
 {% if group.size > 0 %}
+<div class="eco-group">
 <h3>{{ type_labels[forloop.index0] }}</h3>
 <ul class="eco-list">
 {% for item in group %}
-    <li>
+    <li data-type="{{ item.type }}" data-status="{{ item.status }}" data-tags="{{ item.tags | join: '|' | downcase | escape }}" data-text="{{ item.title | append: ' ' | append: item.author | downcase | escape }}">
         <span class="eco-title">{{ item.title | escape }}</span>{% if item.author %} <span class="eco-author">— {{ item.author | escape }}</span>{% endif %}{% if item.paused %} <span class="eco-meta">(paused)</span>{% endif %}
         {% if item.when or item.links %}<br><span class="eco-meta">{% if item.when %}{{ item.when | escape }}{% endif %}{% if item.when and item.links %} · {% endif %}{% for link in item.links %}<a href="{{ link.url }}">{{ link.label | escape }}</a>{% unless forloop.last %} · {% endunless %}{% endfor %}</span>{% endif %}
         {% if item.comment %}<p class="eco-comment">{{ item.comment | escape }}</p>{% endif %}
+        {% if item.tags %}<span class="eco-tags">{% for tag in item.tags %}<button type="button" class="eco-tag" data-tag="{{ tag | downcase | escape }}">#{{ tag | escape }}</button>{% endfor %}</span>{% endif %}
     </li>
 {% endfor %}
 </ul>
+</div>
 {% endif %}
 {% endfor %}
-
+</div>
 {% endif %}
 {% endfor %}
+</section>
 
 </main>
 
@@ -75,5 +107,6 @@
     <p>&copy; 2026 majofrog</p>
 </footer>
 
+<script id="eco-data" type="application/json">{{ site.data.ecosystem | jsonify }}</script>
 </body>
 </html>

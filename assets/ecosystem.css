@@ -1,0 +1,433 @@
+/* Cultural ecosystem — page-specific look (loaded after style.css).
+ * The page re-points the site's colour tokens to a dark "night sky" palette,
+ * so header, footer and links from style.css adapt on their own.
+ *
+ * Media families use the first three slots of a validated categorical palette
+ * (dark steps): they stay distinguishable for colour-blind readers too.
+ * Status is never colour-only: filled = consumed, halo = now, ring = next.
+ */
+
+body.eco-page {
+    --bg:      #11141a;
+    --surface: #171b23;
+    --surface-2: #1d222c;
+    --text:    #c6cbd5;
+    --heading: #f1f2f4;
+    --muted:   #8a92a2;
+    --link:    #ff6b6b;
+    --rule:    #272c36;
+    --edge:    #3b4352;
+    --hub:     #7d8596;
+
+    --read:    #3987e5;
+    --watch:   #d95926;
+    --listen:  #199e70;
+
+    max-width: 64rem;
+    color-scheme: dark;
+}
+
+.fam-read   { --fam: var(--read); }
+.fam-watch  { --fam: var(--watch); }
+.fam-listen { --fam: var(--listen); }
+
+.eco-heading { margin-top: 0; font-size: 1.5rem; }
+.eco-intro { max-width: 40rem; }
+
+/* ── toolbar: tabs + result count ── */
+.no-js .eco-js-only { display: none; }
+
+.eco-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1.5rem 0 0.75rem;
+}
+
+.eco-tabs {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 3px;
+    background: var(--surface);
+}
+
+.eco-tabs button {
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--muted);
+    background: none;
+    border: 0;
+    border-radius: 999px;
+    padding: 0.3rem 1rem;
+    cursor: pointer;
+}
+
+.eco-tabs button[aria-selected="true"] {
+    color: var(--bg);
+    background: var(--heading);
+}
+
+.eco-result { margin: 0; color: var(--muted); font-size: 0.85rem; }
+
+/* ── filters ── */
+.eco-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.eco-chipgroup { display: flex; flex-wrap: wrap; gap: 0.4rem; align-items: center; }
+.eco-inputs { flex: 1 1 100%; }
+
+.chip,
+.eco-inputs select,
+.eco-inputs input {
+    font: inherit;
+    font-size: 0.8rem;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    min-height: 2rem;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+}
+
+.chip[aria-pressed="false"] {
+    color: var(--muted);
+    background: transparent;
+    border-style: dashed;
+    opacity: 0.7;
+}
+
+.chip[aria-pressed="false"] .sw,
+.chip[aria-pressed="false"] .gl { opacity: 0.35; }
+
+.chip-reset { color: var(--muted); }
+
+.eco-inputs input { flex: 1 1 12rem; min-width: 0; }
+.eco-inputs select { max-width: 100%; }
+
+.chip:hover,
+.eco-inputs select:hover,
+.eco-inputs input:hover { border-color: var(--edge); }
+
+.eco-page :focus-visible {
+    outline: 2px solid var(--heading);
+    outline-offset: 2px;
+}
+
+/* ── legend glyphs (shared by chips and legend) ── */
+.sw, .gl {
+    display: inline-block;
+    flex: none;
+    width: 0.7rem;
+    height: 0.7rem;
+    border-radius: 50%;
+    vertical-align: -0.05rem;
+}
+
+.sw { background: var(--fam); }
+.gl-done { background: var(--muted); }
+.gl-now  { background: var(--muted); box-shadow: 0 0 0 2px var(--bg), 0 0 0 3.5px var(--muted); }
+.gl-next { border: 2px solid var(--muted); }
+.gl-tag  { width: 0.45rem; height: 0.45rem; background: var(--hub); }
+.gl-author {
+    width: 0.55rem;
+    height: 0.55rem;
+    border: 1.5px solid var(--text);
+    border-radius: 1px;
+    transform: rotate(45deg);
+}
+
+/* ── graph canvas ── */
+.eco-graph {
+    position: relative;
+    height: min(72vh, 640px);
+    min-height: 420px;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    overflow: hidden;
+    touch-action: none;
+    background:
+        radial-gradient(ellipse at 25% 15%, rgba(57, 135, 229, 0.10), transparent 55%),
+        radial-gradient(ellipse at 85% 90%, rgba(217, 89, 38, 0.08), transparent 50%),
+        radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.3px) 0 0 / 22px 22px,
+        var(--bg);
+}
+
+.eco-svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    font-family: inherit;
+}
+
+.eco-svg:active { cursor: grabbing; }
+
+.link {
+    stroke: var(--edge);
+    stroke-width: 1;
+    stroke-opacity: 0.7;
+    transition: stroke-opacity 0.15s, stroke 0.15s;
+}
+
+.link-author { stroke-dasharray: 3 3; }
+.link.lit { stroke: var(--heading); stroke-opacity: 0.55; }
+.link.dim { stroke-opacity: 0.12; }
+
+.node { cursor: pointer; transition: opacity 0.15s; }
+.node.dim { opacity: 0.18; }
+.node:focus { outline: none; }
+.hit { fill: transparent; }
+
+.node-res .mark {
+    fill: var(--fam);
+    stroke: var(--bg);
+    stroke-width: 2;
+}
+
+.node-res.st-next .mark {
+    fill: var(--bg);
+    stroke: var(--fam);
+    stroke-width: 2.5;
+}
+
+.node-res .halo {
+    fill: none;
+    stroke: var(--fam);
+    stroke-width: 2;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: eco-pulse 2.4s ease-out infinite;
+}
+
+@keyframes eco-pulse {
+    from { transform: scale(1);   opacity: 0.9; }
+    to   { transform: scale(2.4); opacity: 0; }
+}
+
+.node-res.is-selected .mark,
+.node-res:focus-visible .mark { stroke: var(--heading); stroke-width: 2.5; }
+
+.node-tag .mark { fill: var(--hub); }
+.node-tag.is-active-tag .mark { fill: var(--heading); }
+
+.node-author .mark {
+    fill: var(--bg);
+    stroke: var(--text);
+    stroke-width: 1.5;
+}
+
+/* labels live in their own layer above all nodes (see ecosystem.js) */
+.label {
+    font-size: 11px;
+    fill: var(--text);
+    paint-order: stroke;
+    stroke: var(--bg);
+    stroke-width: 3px;
+    stroke-linejoin: round;
+    pointer-events: none;
+    transition: opacity 0.15s;
+}
+
+.label-tag { fill: var(--muted); font-size: 10.5px; }
+.label-tag.is-active-tag { fill: var(--heading); }
+.label-author { fill: var(--muted); font-size: 10.5px; font-style: italic; }
+.label.dim { opacity: 0.18; }
+
+/* resource titles appear when it matters: now-items, highlight/focus, selection, zoom-in */
+.label-res { opacity: 0; }
+.label-res.st-now,
+.label-res.lit,
+.label-res.is-selected,
+.zoomed .label-res { opacity: 1; }
+.label-res.dim { opacity: 0; }
+
+.label-res.lit,
+.label-res.is-selected { fill: var(--heading); }
+
+/* ── tooltip, detail card, overlay bits ── */
+.eco-tip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 3;
+    max-width: 260px;
+    padding: 0.45rem 0.65rem;
+    background: var(--surface-2);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    font-size: 0.8rem;
+    line-height: 1.4;
+    pointer-events: none;
+}
+
+.eco-tip strong { display: block; color: var(--heading); }
+.eco-tip span   { display: block; }
+.eco-tip small  { display: block; color: var(--muted); margin-top: 0.15rem; }
+
+.eco-detail {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 4;
+    width: min(300px, calc(100% - 24px));
+    max-height: calc(100% - 24px);
+    overflow-y: auto;
+    padding: 0.9rem 1rem 0.6rem;
+    background: rgba(23, 27, 35, 0.96);
+    border: 1px solid var(--rule);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    font-size: 0.9rem;
+}
+
+.eco-detail h3 { margin: 0.2rem 1.5rem 0.2rem 0; font-size: 1.05rem; }
+.eco-detail p { margin: 0 0 0.6rem; }
+
+.eco-detail-kicker {
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.eco-detail-kicker::before {
+    content: "";
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-right: 0.4rem;
+    border-radius: 50%;
+    background: var(--fam);
+}
+
+.eco-close {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.5rem;
+    font: inherit;
+    font-size: 1.3rem;
+    line-height: 1;
+    color: var(--muted);
+    background: none;
+    border: 0;
+    padding: 0.2rem 0.4rem;
+    cursor: pointer;
+}
+
+.eco-close:hover { color: var(--heading); }
+
+.eco-empty {
+    position: absolute;
+    inset: 50% 0 auto;
+    margin: 0;
+    text-align: center;
+    color: var(--muted);
+}
+
+.eco-fit {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    z-index: 2;
+    font: inherit;
+    font-size: 0.75rem;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.25rem 0.7rem;
+    cursor: pointer;
+}
+
+.eco-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    margin: 0.75rem 0 0.25rem;
+    font-size: 0.8rem;
+}
+
+.eco-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.eco-legend small { color: var(--muted); }
+.eco-legend-break .gl:not(:first-child) { margin-left: 0.5rem; }
+
+.eco-hint { color: var(--muted); font-size: 0.8rem; }
+
+/* ── list view ── */
+.eco-section h2 { scroll-margin-top: 1rem; }
+
+.eco-count {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-weight: normal;
+}
+
+.eco-meta { color: var(--muted); font-size: 0.85rem; }
+
+.eco-list { list-style: none; padding-left: 0; }
+
+.eco-list li {
+    margin-bottom: 0.6rem;
+    padding: 0.6rem 0.8rem;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+}
+
+.eco-title { color: var(--heading); font-weight: bold; }
+
+.eco-comment {
+    margin: 0.35rem 0 0;
+    padding-left: 0.75rem;
+    border-left: 2px solid var(--edge);
+    font-size: 0.95rem;
+}
+
+.eco-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.4rem; }
+
+.eco-tag {
+    font: inherit;
+    font-size: 0.72rem;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.05rem 0.5rem;
+}
+
+.js .eco-tag { cursor: pointer; }
+.js .eco-tag:hover { color: var(--heading); border-color: var(--edge); }
+.eco-tag.is-active { color: var(--bg); background: var(--heading); border-color: var(--heading); }
+
+/* ── small screens ── */
+@media (max-width: 600px) {
+    .eco-graph { height: 70vh; min-height: 360px; }
+    .eco-detail {
+        top: auto;
+        bottom: 12px;
+        left: 12px;
+        right: 12px;
+        width: auto;
+        max-height: 55%;
+    }
+    .eco-fit { top: 12px; bottom: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .node-res .halo { animation: none; transform: scale(1.6); opacity: 0.5; }
+    .node, .link, .label { transition: none; }
+}

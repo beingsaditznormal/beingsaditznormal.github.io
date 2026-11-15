@@ -7,6 +7,8 @@
 #     author: "Author / director / channel / newsletter"
 #     type: book                # book | film | series | video | podcast | article | newsletter | paper | course
 #     status: done              # done (consumed) | now (consuming) | next (will consume)
+#     tags: [family, ww2]       # themes: they become the hubs that connect the graph.
+#                               # reuse existing tags (lowercase, dash-separated) so things link up
 #     when: "2026-11"           # optional, free text: "2026-11", "summer 2026", ...
 #     paused: true              # optional, only for "now" items on hold
 #     links:                    # optional, as many as you like
@@ -23,18 +25,21 @@
   author: "Marguerite Yourcenar"
   type: book
   status: now
+  tags: [history, religion, philosophy]
   when: "2026-11"
 
 - title: "The Google Story"
   author: "David A. Vise"
   type: book
   status: now
+  tags: [tech, business, true-story]
   when: "2026-01"
 
 - title: "Q"
   author: "Luther Blissett (oggi Wu Ming)"
   type: book
   status: now
+  tags: [history, religion]
   when: "2025-12"
 
 # ---------------------------------------------------------------- done
@@ -43,66 +48,77 @@
   author: "Satoshi Yagisawa"
   type: book
   status: done
+  tags: [japan, books-about-books, friendship]
   when: "2026-08 → 2026-11"
 
 - title: "Hamnet"
   author: "Chloé Zhao"
   type: film
   status: done
+  tags: [family, grief, shakespeare]
   when: "2026-03"
 
 - title: "Sobibor"
   author: "Konstantin Khabensky"
   type: film
   status: done
+  tags: [ww2, holocaust, resistance, true-story]
   when: "2026-03"
 
 - title: "L'invisibile – La cattura di Matteo Messina Denaro"
   author: "Michele Soavi"
   type: film
   status: done
+  tags: [mafia, italy, true-story]
   when: "2026-03"
 
 - title: "La strada"
   author: "Federico Fellini"
   type: film
   status: done
+  tags: [italy, classic, meaning]
   when: "2026-03"
 
 - title: "Nuremberg"
   author: "Yves Simoneau"
   type: film
   status: done
+  tags: [ww2, holocaust, justice, true-story]
   when: "2026-02"
 
 - title: "Marty Supreme"
   author: "Josh Safdie"
   type: film
   status: done
+  tags: [sport, obsession]
   when: "2026-01"
 
 - title: "Gli angeli dalla faccia sporca"
   author: "Michael Curtiz"
   type: film
   status: done
+  tags: [crime, religion, classic]
   when: "2026-01"
 
 - title: "Cattive acque"
   author: "Todd Haynes"
   type: film
   status: done
+  tags: [environment, justice, true-story]
   when: "2025-12"
 
 - title: "Balloon"
   author: "Michael Bully Herbig"
   type: film
   status: done
+  tags: [cold-war, escape, true-story]
   when: "2025-12"
 
 - title: "La vegetariana"
   author: "Han Kang"
   type: book
   status: done
+  tags: [body, family, nobel]
   when: "2025-11"
   comment: "Premio Nobel per la letteratura 2024."
 
@@ -110,60 +126,70 @@
   author: "Ottessa Moshfegh"
   type: book
   status: done
+  tags: [isolation, mental-health]
   when: "2025-11"
 
 - title: "Madame Bovary"
   author: "Gustave Flaubert"
   type: book
   status: done
+  tags: [classic, marriage, france]
   when: "2025-08"
 
 - title: "Lettera a mio padre"
   author: "Franz Kafka"
   type: book
   status: done
+  tags: [family, classic]
   when: "2025-08"
 
 - title: "I miei giorni alla libreria Morisaki"
   author: "Satoshi Yagisawa"
   type: book
   status: done
+  tags: [japan, books-about-books, family]
   when: "2025-07"
 
 - title: "Tutto il bello che ci aspetta"
   author: "Lorenza Gentile"
   type: book
   status: done
+  tags: [italy, growing-up]
   when: "2025-07"
 
 - title: "Le piccole libertà"
   author: "Lorenza Gentile"
   type: book
   status: done
+  tags: [italy, growing-up, travel]
   when: "2025-04"
 
 - title: "Le cose che ci salvano"
   author: "Lorenza Gentile"
   type: book
   status: done
+  tags: [italy, growing-up]
   when: "2025-04"
 
 - title: "Circe"
   author: "Madeline Miller"
   type: book
   status: done
+  tags: [mythology, feminism]
   when: "2025-04"
 
 - title: "Tu sei qui?"
   author: "David Nicholls"
   type: book
   status: done
+  tags: [trekking, love, travel]
   when: "2025-02"
 
 - title: "Lorde x Rolling Stone — intervista sull'uscita di Virgin"
   author: "Rolling Stone"
   type: article
   status: done
+  tags: [music, gender]
   links:
     - label: rollingstone.com
       url: https://www.rollingstone.com/music/music-features/lorde-new-album-virgin-breakup-gender-1235336574/
@@ -172,6 +198,7 @@
   author: "Sally Rooney"
   type: book
   status: done
+  tags: [family, grief, ireland]
   when: "2026-01"
 
 # ---------------------------------------------------------------- next
@@ -180,19 +207,23 @@
   author: "Javier Cercas"
   type: book
   status: next
+  tags: [religion, travel, true-story]
 
 - title: "La bella estate"
   author: "Cesare Pavese"
   type: book
   status: next
+  tags: [italy, classic, growing-up]
 
 - title: "L'uomo nell'alto castello"
   type: series
   status: next
+  tags: [ww2, alt-history]
 
 - title: "Il cacciatore"
   type: series
   status: next
+  tags: [mafia, italy, true-story]
 
 - title: "Le libere donne"
   type: series
